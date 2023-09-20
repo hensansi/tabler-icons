@@ -25,6 +25,13 @@ const bundles = [
     outputDir,
   },
   {
+    format: 'commonjs',
+    inputs,
+    outputDir,
+    preserveModules: true,
+    exports: 'named',
+  },
+  {
     format: 'es',
     inputs,
     outputDir,
@@ -38,11 +45,12 @@ const bundles = [
 ];
 
 const configs = bundles
-    .map(({ inputs, outputDir, format, minify, preserveModules }) =>
+    .map(({ inputs, outputDir, format, minify, preserveModules, exports }) =>
         inputs.map(input => ({
           input,
           plugins: getRollupPlugins(pkg, minify),
           external: ['react', 'prop-types'],
+          exports,
           output: {
             name: packageName,
             ...(preserveModules
